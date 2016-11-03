@@ -279,11 +279,22 @@ namespace SuperAdventure
 
             else
             {
+                cboWeapons.SelectedIndexChanged -= cboWeapons_SelectedIndexChanged;
                 cboWeapons.DataSource = weapons;
+                cboWeapons.SelectedIndexChanged += cboWeapons_SelectedIndexChanged;
                 cboWeapons.DisplayMember = "Name";
                 cboWeapons.ValueMember = "ID";
 
-                cboWeapons.SelectedIndex = 0;
+                if(_player.CurrentWeapon != null)
+                {
+                    cboWeapons.SelectedItem = _player.CurrentWeapon;
+                }
+
+                else
+                {
+                    cboWeapons.SelectedItem = 0;
+                }
+
             }
         }
 
@@ -318,7 +329,6 @@ namespace SuperAdventure
                 cboPotions.SelectedIndex = 0;
             }
         }
-
 
         private void btnUseWeapon_Click(object sender, EventArgs e)
         {
@@ -486,6 +496,11 @@ namespace SuperAdventure
         private void rtbMessages_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void cboWeapons_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _player.CurrentWeapon = (Weapon)cboWeapons.SelectedItem;
         }
 
         //Scroll to bottom of message method
