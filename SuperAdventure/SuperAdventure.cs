@@ -34,8 +34,12 @@ namespace SuperAdventure
                 _player = Player.CreateDefaultPlayer();
             }
 
+            lblHitPoints.DataBindings.Add("Text", _player, "CurrentHitPoints");
+            lblGold.DataBindings.Add("Text", _player, "Gold");
+            lblExperience.DataBindings.Add("Text", _player, "ExperiencePoints");
+            lblLevel.DataBindings.Add("Text", _player, "Level");
+
             MoveTo(_player.CurrentLocation);
-            UpdatePlayerStats();
         }
 
         private void btnNorth_Click(object sender, EventArgs e)
@@ -88,9 +92,6 @@ namespace SuperAdventure
             //Completely heal the player
             _player.CurrentHitPoints = _player.MaximumHitPoints;
 
-            //Update Hit Points in UI
-            lblHitPoints.Text = _player.CurrentHitPoints.ToString();
-
             //Does the location have a quest?
             if (newLocation.QuestAvailableHere != null)
             {
@@ -128,7 +129,7 @@ namespace SuperAdventure
                             rtbMessages.Text += newLocation.QuestAvailableHere.RewardItem.Name + Environment.NewLine;
                             rtbMessages.Text += Environment.NewLine;
 
-                            _player.ExperiencePoints += newLocation.QuestAvailableHere.RewardExperiencePoints;
+                            _player.AddExperiencePoints (newLocation.QuestAvailableHere.RewardExperiencePoints);
                             _player.Gold += newLocation.QuestAvailableHere.RewardGold;
 
                             // Add the reward item to the player's inventory
@@ -352,7 +353,7 @@ namespace SuperAdventure
                 rtbMessages.Text += "You defeated the " + _currentMonster.Name + Environment.NewLine;
 
                 //Give player experience points for killing the monster
-                _player.ExperiencePoints += _currentMonster.RewardExperiencePoints;
+                _player.AddExperiencePoints(_currentMonster.RewardExperiencePoints);
                 rtbMessages.Text += "You receive " + _currentMonster.RewardExperiencePoints.ToString() + " experience points" + Environment.NewLine;
 
                 //Give player gold for killing the monster
@@ -431,8 +432,7 @@ namespace SuperAdventure
                     MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
 
                 }
-                //custom - health wasn't being updated
-                lblHitPoints.Text = _player.CurrentHitPoints.ToString();
+
             }
 
             ScrollToBottomOfMessages();
@@ -486,7 +486,6 @@ namespace SuperAdventure
             }
 
             //Refresh player data in UI
-            lblHitPoints.Text = _player.CurrentHitPoints.ToString();
             UpdateInventoryListInUI();
             UpdatePotionListInUI();
 
@@ -510,7 +509,7 @@ namespace SuperAdventure
             rtbMessages.ScrollToCaret();
         }
 
-        private void UpdatePlayerStats()
+       /* private void UpdatePlayerStats()
         {
             //Refresh player information and inventory controls
             lblHitPoints.Text = _player.CurrentHitPoints.ToString();
@@ -521,6 +520,7 @@ namespace SuperAdventure
             ScrollToBottomOfMessages();
             rtbMessages.Text += "TEST" + Environment.NewLine;
         }
+        */
 
         private void SuperAdventure_FormClosing(object sender, FormClosingEventArgs e)
         {
