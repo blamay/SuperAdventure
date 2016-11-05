@@ -8,29 +8,8 @@ namespace Engine
 {
     public class Player : LivingCreature
     {
-        private int _gold;
-        private int _experiencePoints;
-
-        public int Gold
-        {
-            get { return _gold; }
-            set
-            {
-                _gold = value;
-                OnPropertyChanged("Gold");
-            }
-        }
-        public int ExperiencePoints
-        {
-            get { return _experiencePoints; }
-            private set
-            {
-                _experiencePoints = value;
-                OnPropertyChanged("ExperiencePoints");
-                OnPropertyChanged("Level");
-            }
-        }
-
+        public int Gold { get; set; }
+        public int ExperiencePoints { get; set; }
         public Location CurrentLocation { get; set; }
         public Weapon CurrentWeapon { get; set; }
         public List<InventoryItem> Inventory { get; set; }
@@ -51,12 +30,6 @@ namespace Engine
             player.CurrentLocation = World.LocationByID(World.LOCATION_ID_HOME);
 
             return player;
-        }
-
-        public void AddExperiencePoints (int experiencePointsToAdd)
-        {
-            ExperiencePoints += experiencePointsToAdd;
-            MaximumHitPoints = (Level * 10);
         }
 
         public static Player CreatePlayerFromXmlString(string xmlPlayerData)
