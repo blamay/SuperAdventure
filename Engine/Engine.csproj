@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="MessageEventArgs.cs" />
     <Compile Include="HealingPotion.cs" />
     <Compile Include="InventoryItem.cs" />
     <Compile Include="Item.cs" />
