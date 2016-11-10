@@ -17,12 +17,16 @@ namespace SuperAdventure
     {
         private Player _player;
 
+        //Constant
         private const string PLAYER_DATA_FILE_NAME = "PlayerData.xml";
 
+        //Load game file
         public SuperAdventure()
         {
             InitializeComponent();
 
+
+            //Load game file
             if(File.Exists(PLAYER_DATA_FILE_NAME))
             {
                 _player = Player.CreatePlayerFromXmlString(File.ReadAllText(PLAYER_DATA_FILE_NAME));
@@ -94,27 +98,23 @@ namespace SuperAdventure
             _player.MoveCurrentLocation();
         }
 
+        //Initialize buttons
         private void btnNorth_Click(object sender, EventArgs e)
         {
             _player.MoveNorth();
         }
-
         private void btnSouth_Click(object sender, EventArgs e)
         {
             _player.MoveSouth();
         }
-
         private void btnEast_Click(object sender, EventArgs e)
         {
             _player.MoveEast();
         }
-
         private void btnWest_Click(object sender, EventArgs e)
         {
             _player.MoveWest();
         }
-
-        
 
         private void btnUseWeapon_Click(object sender, EventArgs e)
         {
@@ -122,17 +122,11 @@ namespace SuperAdventure
 
             _player.UseWeapon(currentWeapon);
         }
-
         private void btnUsePotion_Click(object sender, EventArgs e)
         {
             HealingPotion potion = (HealingPotion)cboPotions.SelectedItem;
 
             _player.UsePotion(potion);
-        }
-
-        private void rtbMessages_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void cboWeapons_SelectedIndexChanged(object sender, EventArgs e)
