@@ -98,7 +98,7 @@ namespace SuperAdventure
             _player.MoveCurrentLocation();
         }
 
-        //Initialize buttons
+        //Buttons
         private void btnNorth_Click(object sender, EventArgs e)
         {
             _player.MoveNorth();
@@ -129,11 +129,20 @@ namespace SuperAdventure
             _player.UsePotion(potion);
         }
 
+        private void btnTrade_Click(object sender, EventArgs e)
+        {
+            TradingScreen tradingScreen = new TradingScreen(_player);
+            tradingScreen.StartPosition = FormStartPosition.CenterParent;
+            tradingScreen.ShowDialog(this);
+        }
+
+        //Saves selected Weapon
         private void cboWeapons_SelectedIndexChanged(object sender, EventArgs e)
         {
             _player.CurrentWeapon = (Weapon)cboWeapons.SelectedItem;
         }
 
+        //Updates combobox data when inventory changes
         private void PlayerOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             if (propertyChangedEventArgs.PropertyName == "Weapons")
@@ -160,6 +169,9 @@ namespace SuperAdventure
 
             if(propertyChangedEventArgs.PropertyName == "CurrentLocation")
             {
+                //Trade screen
+                btnTrade.Visible = (_player.CurrentLocation.VendorWorkingHere != null);
+
                 //Show/hide available movement buttons
 
                 btnNorth.Visible = (_player.CurrentLocation.LocationToNorth != null);
