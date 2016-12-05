@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="PlayerDataMapper.cs" />
     <Compile Include="MessageEventArgs.cs" />
     <Compile Include="HealingPotion.cs" />
     <Compile Include="InventoryItem.cs" />
@@ -54,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
