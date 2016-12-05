@@ -39,8 +39,8 @@ namespace SuperAdventure
             dgvMyItems.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Name",
-            Width = 100,
-            DataPropertyName = "Description"
+                Width = 100,
+                DataPropertyName = "Description"
             });
 
             dgvMyItems.Columns.Add(new DataGridViewTextBoxColumn
@@ -56,7 +56,7 @@ namespace SuperAdventure
                 HeaderText = "Price",
                 Width = 30,
                 DefaultCellStyle = rightAlignedCellStyle,
-                DataPropertyName = "Price"
+                DataPropertyName = "price"
             });
 
             dgvMyItems.Columns.Add(new DataGridViewButtonColumn
@@ -96,7 +96,7 @@ namespace SuperAdventure
                 HeaderText = "Price",
                 Width = 30,
                 DefaultCellStyle = rightAlignedCellStyle,
-                DataPropertyName = "Price"
+                DataPropertyName = "price"
             });
 
             dgvVendorItems.Columns.Add(new DataGridViewButtonColumn
@@ -160,7 +160,7 @@ namespace SuperAdventure
                 //Get the Item object for the selected item row
                 Item itemBeingBought = World.ItemByID(Convert.ToInt32(itemID));
 
-                if (itemBeingBought.Price == World.UNSELLABLE_ITEM_PRICE)
+                if (itemBeingBought.Price != World.UNSELLABLE_ITEM_PRICE)
                 {
                     //Add one of the items to the player's inventory
                     _currentPlayer.AddItemToInventory(itemBeingBought);
