@@ -1,0 +1,8 @@
+C:\Projects\SuperAdventure\SuperAdventureConsole2\bin\Release\SuperAdventureConsole.exe.config
+C:\Projects\SuperAdventure\SuperAdventureConsole2\bin\Release\SuperAdventureConsole.exe
+C:\Projects\SuperAdventure\SuperAdventureConsole2\bin\Release\SuperAdventureConsole.pdb
+C:\Projects\SuperAdventure\SuperAdventureConsole2\bin\Release\Engine.dll
+C:\Projects\SuperAdventure\SuperAdventureConsole2\bin\Release\Engine.pdb
+C:\Projects\SuperAdventure\SuperAdventureConsole2\obj\Release\SuperAdventureConsole.csprojResolveAssemblyReference.cache
+C:\Projects\SuperAdventure\SuperAdventureConsole2\obj\Release\SuperAdventureConsole.exe
+C:\Projects\SuperAdventure\SuperAdventureConsole2\obj\Release\SuperAdventureConsole.pdb
