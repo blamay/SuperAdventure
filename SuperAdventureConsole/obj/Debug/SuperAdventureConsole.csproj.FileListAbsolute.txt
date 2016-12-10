@@ -1,0 +1,10 @@
+C:\Projects\SuperAdventure\SuperAdventureConsole\bin\Debug\SuperAdventureConsole.exe.config
+C:\Projects\SuperAdventure\SuperAdventureConsole\obj\Debug\SuperAdventureConsole.csprojResolveAssemblyReference.cache
+C:\Projects\SuperAdventure\SuperAdventureConsole\obj\Debug\SuperAdventureConsole.Properties.Resources.resources
+C:\Projects\SuperAdventure\SuperAdventureConsole\obj\Debug\SuperAdventureConsole.csproj.GenerateResource.Cache
+C:\Projects\SuperAdventure\SuperAdventureConsole\bin\Debug\SuperAdventureConsole.exe
+C:\Projects\SuperAdventure\SuperAdventureConsole\bin\Debug\SuperAdventureConsole.pdb
+C:\Projects\SuperAdventure\SuperAdventureConsole\bin\Debug\Engine.dll
+C:\Projects\SuperAdventure\SuperAdventureConsole\bin\Debug\Engine.pdb
+C:\Projects\SuperAdventure\SuperAdventureConsole\obj\Debug\SuperAdventureConsole.exe
+C:\Projects\SuperAdventure\SuperAdventureConsole\obj\Debug\SuperAdventureConsole.pdb

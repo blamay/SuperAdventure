@@ -9,3 +9,4 @@ C:\Projects\SuperAdventure\SuperAdventure\obj\Release\SuperAdventure.SuperAdvent
 C:\Projects\SuperAdventure\SuperAdventure\obj\Release\SuperAdventure.csproj.GenerateResource.Cache
 C:\Projects\SuperAdventure\SuperAdventure\obj\Release\SuperAdventure.exe
 C:\Projects\SuperAdventure\SuperAdventure\obj\Release\SuperAdventure.pdb
+C:\Projects\SuperAdventure\SuperAdventure\obj\Release\SuperAdventure.TradingScreen.resources
