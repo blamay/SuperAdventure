@@ -369,7 +369,7 @@ namespace Engine
         }
     
         //Movement
-        private void MoveTo(Location newLocation)
+        public void MoveTo(Location newLocation)
         {
 
             if (!HasRequiredItemToEnterThisLocation(newLocation))
@@ -384,88 +384,37 @@ namespace Engine
             //Completely heal the player
             CurrentHitPoints = MaximumHitPoints;
 
-            //Does the location have a quest?
-            if (newLocation.QuestAvailableHere != null)
+            if (newLocation.HasAQuest)
             {
-                // See if the player already has the quest, and if they've completed it
-                bool playerAlreadyHasQuest = HasThisQuest(newLocation.QuestAvailableHere);
-                bool playerAlreadyCompletedQuest = CompletedThisQuest(newLocation.QuestAvailableHere);
-
                 // See if the player already has the quest
-                if (playerAlreadyHasQuest)
+                if (!HasThisQuest(newLocation.QuestAvailableHere))
                 {
-                    //If the player has not completed the quest yet
-                    if (!playerAlreadyCompletedQuest)
-                    {
-                        //See if the player has all the items needed to complete the quest
-                        bool playerHasAllItemsToCompleteQuest = HasAllQuestCompletionItems(newLocation.QuestAvailableHere);
-
-                        // The player has all items required to complete the quest
-                        if (playerHasAllItemsToCompleteQuest)
-                        {
-                            //Display Message
-                            RaiseMessage("");
-                            RaiseMessage("You completed the " +
-                            newLocation.QuestAvailableHere.Name +
-                            " quest.");
-
-                            // Remove quest items from inventory
-                            RemoveQuestCompletionItems(newLocation.QuestAvailableHere);
-
-                            //give quest rewards
-                            RaiseMessage("You receive: ");
-                            RaiseMessage(newLocation.QuestAvailableHere.RewardExperiencePoints +
-                                " experience points");
-                            RaiseMessage(newLocation.QuestAvailableHere.RewardGold +
-                                 " gold");
-                            RaiseMessage(newLocation.QuestAvailableHere.RewardItem.Name);
-                            RaiseMessage("");
-
-                            AddExperiencePoints(newLocation.QuestAvailableHere.RewardExperiencePoints);
-                            Gold += newLocation.QuestAvailableHere.RewardGold;
-
-                            // Add the reward item to the player's inventory
-                            AddItemToInventory(newLocation.QuestAvailableHere.RewardItem);
-
-                            //Mark the quest as completed
-                            MarkQuestCompleted(newLocation.QuestAvailableHere);
-                        }
-                    }
+                    GiveQuestToPlayer(newLocation);
                 }
                 else
                 {
-                    // The player does not already have the quest 
-
-                    // Display the messages
-                    RaiseMessage("You receive the " + newLocation.QuestAvailableHere.Name + " quest.");
-                    RaiseMessage(newLocation.QuestAvailableHere.Description);
-                    RaiseMessage("To complete it, return with:");
-                    foreach (QuestCompletionItem qci in newLocation.QuestAvailableHere.QuestCompletionItems)
+                    //If the player has not completed the quest yet
+                    if (!(bool)CompletedThisQuest(newLocation.QuestAvailableHere))
                     {
-                        if (qci.Quantity == 1)
+                        //See if the player has all the items needed to complete the quest
+                        if (HasAllQuestCompletionItems(newLocation.QuestAvailableHere))
                         {
-                            RaiseMessage(qci.Quantity.ToString() + " " + qci.Details.Name);
-                        }
-
-                        else
-                        {
-                            RaiseMessage(qci.Quantity.ToString() + " " + qci.Details.NamePlural);
+                            CompleteQuest(newLocation);
                         }
                     }
-
-                    RaiseMessage("");
-
-                    //Add the quest to the player's quest list
-                    Quests.Add(new PlayerQuest(newLocation.QuestAvailableHere));
-
                 }
             }
 
+            SetCurrentMonsters(newLocation);
+        }
+
+        private void SetCurrentMonsters(Location newLocation)
+        {
             // Does the location have a monster?
             if (newLocation.MonsterLivingHere != null)
             {
 
-               RaiseMessage("You see a " + newLocation.MonsterLivingHere.Name);
+                RaiseMessage("You see a " + newLocation.MonsterLivingHere.Name);
 
                 // Make a new monster, using the values from the standard monster in the World.Monster list
                 Monster standardMonster = World.MonsterByID(newLocation.MonsterLivingHere.ID);
@@ -479,9 +428,62 @@ namespace Engine
             }
 
             else _currentMonster = null;
-
-
         }
+
+        private void CompleteQuest(Location newLocation)
+        {
+            //Display Message
+            RaiseMessage("");
+            RaiseMessage("You completed the " +
+            newLocation.QuestAvailableHere.Name +
+            " quest.");
+
+            // Remove quest items from inventory
+            RemoveQuestCompletionItems(newLocation.QuestAvailableHere);
+
+            //give quest rewards
+            RaiseMessage("You receive: ");
+            RaiseMessage(newLocation.QuestAvailableHere.RewardExperiencePoints +
+                " experience points");
+            RaiseMessage(newLocation.QuestAvailableHere.RewardGold +
+                 " gold");
+            RaiseMessage(newLocation.QuestAvailableHere.RewardItem.Name);
+            RaiseMessage("");
+
+            AddExperiencePoints(newLocation.QuestAvailableHere.RewardExperiencePoints);
+            Gold += newLocation.QuestAvailableHere.RewardGold;
+
+            // Add the reward item to the player's inventory
+            AddItemToInventory(newLocation.QuestAvailableHere.RewardItem);
+
+            //Mark the quest as completed
+            MarkQuestCompleted(newLocation.QuestAvailableHere);
+        }
+        private void GiveQuestToPlayer(Location newLocation)
+        {
+            // Display the messages
+            RaiseMessage("You receive the " + newLocation.QuestAvailableHere.Name + " quest.");
+            RaiseMessage(newLocation.QuestAvailableHere.Description);
+            RaiseMessage("To complete it, return with:");
+            foreach (QuestCompletionItem qci in newLocation.QuestAvailableHere.QuestCompletionItems)
+            {
+                if (qci.Quantity == 1)
+                {
+                    RaiseMessage(qci.Quantity.ToString() + " " + qci.Details.Name);
+                }
+
+                else
+                {
+                    RaiseMessage(qci.Quantity.ToString() + " " + qci.Details.NamePlural);
+                }
+            }
+
+            RaiseMessage("");
+
+            //Add the quest to the player's quest list
+            Quests.Add(new PlayerQuest(newLocation.QuestAvailableHere));
+        }
+
         public void MoveNorth()
         {
             if (CurrentLocation.LocationToNorth != null)

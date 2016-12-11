@@ -175,12 +175,6 @@ namespace SuperAdventure
             }
         }
 
-        //can probably remove \/
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnClose_Click(object sender, EventArgs e)
         {
             Close();
