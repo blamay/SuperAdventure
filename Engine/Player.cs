@@ -294,6 +294,27 @@ namespace Engine
             ExperiencePoints += experiencePointsToAdd;
             MaximumHitPoints = (Level * 10);
         }
+        private void SetCurrentMonsters(Location newLocation)
+        {
+            // Does the location have a monster?
+            if (newLocation.MonsterLivingHere != null)
+            {
+
+                RaiseMessage("You see a " + newLocation.MonsterLivingHere.Name);
+
+                // Make a new monster, using the values from the standard monster in the World.Monster list
+                Monster standardMonster = World.MonsterByID(newLocation.MonsterLivingHere.ID);
+
+                _currentMonster = new Monster(standardMonster.ID, standardMonster.Name, standardMonster.MaximumDamage, standardMonster.RewardExperiencePoints, standardMonster.RewardGold, standardMonster.CurrentHitPoints, standardMonster.MaximumHitPoints);
+
+                foreach (LootItem lootItem in standardMonster.LootTable)
+                {
+                    _currentMonster.LootTable.Add(lootItem);
+                }
+            }
+
+            else _currentMonster = null;
+        }
 
         //Quest logic
         public bool HasThisQuest(Quest quest)
@@ -367,69 +388,6 @@ namespace Engine
                 playerQuest.IsCompleted = true;
             }
         }
-    
-        //Movement
-        public void MoveTo(Location newLocation)
-        {
-
-            if (!HasRequiredItemToEnterThisLocation(newLocation))
-            {
-                RaiseMessage("You must have a " + newLocation.ItemRequiredfToEnter.Name + " to enter this location.");
-                return;
-            }
-
-            //update the player's current location
-            CurrentLocation = newLocation;
-
-            //Completely heal the player
-            CurrentHitPoints = MaximumHitPoints;
-
-            if (newLocation.HasAQuest)
-            {
-                // See if the player already has the quest
-                if (!HasThisQuest(newLocation.QuestAvailableHere))
-                {
-                    GiveQuestToPlayer(newLocation);
-                }
-                else
-                {
-                    //If the player has not completed the quest yet
-                    if (!(bool)CompletedThisQuest(newLocation.QuestAvailableHere))
-                    {
-                        //See if the player has all the items needed to complete the quest
-                        if (HasAllQuestCompletionItems(newLocation.QuestAvailableHere))
-                        {
-                            CompleteQuest(newLocation);
-                        }
-                    }
-                }
-            }
-
-            SetCurrentMonsters(newLocation);
-        }
-
-        private void SetCurrentMonsters(Location newLocation)
-        {
-            // Does the location have a monster?
-            if (newLocation.MonsterLivingHere != null)
-            {
-
-                RaiseMessage("You see a " + newLocation.MonsterLivingHere.Name);
-
-                // Make a new monster, using the values from the standard monster in the World.Monster list
-                Monster standardMonster = World.MonsterByID(newLocation.MonsterLivingHere.ID);
-
-                _currentMonster = new Monster(standardMonster.ID, standardMonster.Name, standardMonster.MaximumDamage, standardMonster.RewardExperiencePoints, standardMonster.RewardGold, standardMonster.CurrentHitPoints, standardMonster.MaximumHitPoints);
-
-                foreach (LootItem lootItem in standardMonster.LootTable)
-                {
-                    _currentMonster.LootTable.Add(lootItem);
-                }
-            }
-
-            else _currentMonster = null;
-        }
-
         private void CompleteQuest(Location newLocation)
         {
             //Display Message
@@ -484,6 +442,45 @@ namespace Engine
             Quests.Add(new PlayerQuest(newLocation.QuestAvailableHere));
         }
 
+        //Movement
+        public void MoveTo(Location newLocation)
+        {
+
+            if (!HasRequiredItemToEnterThisLocation(newLocation))
+            {
+                RaiseMessage("You must have a " + newLocation.ItemRequiredfToEnter.Name + " to enter this location.");
+                return;
+            }
+
+            //update the player's current location
+            CurrentLocation = newLocation;
+
+            //Completely heal the player
+            CurrentHitPoints = MaximumHitPoints;
+
+            if (newLocation.HasAQuest)
+            {
+                // See if the player already has the quest
+                if (!HasThisQuest(newLocation.QuestAvailableHere))
+                {
+                    GiveQuestToPlayer(newLocation);
+                }
+                else
+                {
+                    //If the player has not completed the quest yet
+                    if (!(bool)CompletedThisQuest(newLocation.QuestAvailableHere))
+                    {
+                        //See if the player has all the items needed to complete the quest
+                        if (HasAllQuestCompletionItems(newLocation.QuestAvailableHere))
+                        {
+                            CompleteQuest(newLocation);
+                        }
+                    }
+                }
+            }
+
+            SetCurrentMonsters(newLocation);
+        }
         public void MoveNorth()
         {
             if (CurrentLocation.LocationToNorth != null)
