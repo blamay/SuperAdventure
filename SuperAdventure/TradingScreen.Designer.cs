@@ -45,7 +45,6 @@
             this.lblMyInventory.Size = new System.Drawing.Size(68, 13);
             this.lblMyInventory.TabIndex = 0;
             this.lblMyInventory.Text = "My Inventory";
-            this.lblMyInventory.Click += new System.EventHandler(this.label1_Click);
             // 
             // lblVendorInventory
             // 
