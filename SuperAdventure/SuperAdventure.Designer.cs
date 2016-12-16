@@ -211,6 +211,16 @@
             this.btnWest.UseVisualStyleBackColor = true;
             this.btnWest.Click += new System.EventHandler(this.btnWest_Click);
             // 
+            // btnTrade
+            // 
+            this.btnTrade.Location = new System.Drawing.Point(493, 620);
+            this.btnTrade.Name = "btnTrade";
+            this.btnTrade.Size = new System.Drawing.Size(75, 23);
+            this.btnTrade.TabIndex = 21;
+            this.btnTrade.Text = "Trade";
+            this.btnTrade.UseVisualStyleBackColor = true;
+            this.btnTrade.Click += new System.EventHandler(this.btnTrade_Click);
+            // 
             // rtbLocation
             // 
             this.rtbLocation.Location = new System.Drawing.Point(347, 19);
@@ -260,16 +270,6 @@
             this.dgvQuests.RowHeadersVisible = false;
             this.dgvQuests.Size = new System.Drawing.Size(312, 189);
             this.dgvQuests.TabIndex = 20;
-            //
-            // btnTrade
-            //
-            this.btnTrade.Location = new System.Drawing.Point(493, 620);
-            this.btnTrade.Name = "btnTrade";
-            this.btnTrade.Size = new System.Drawing.Size(75, 23);
-            this.btnTrade.TabIndex = 21;
-            this.btnTrade.Text = "Trade";
-            this.btnTrade.UseVisualStyleBackColor = true;
-            this.btnTrade.Click += new System.EventHandler(this.btnTrade_Click);
             // 
             // SuperAdventure
             // 
@@ -299,6 +299,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "SuperAdventure";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "My Game";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SuperAdventure_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).EndInit();

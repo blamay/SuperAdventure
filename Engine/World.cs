@@ -25,10 +25,12 @@ namespace Engine
         public const int ITEM_ID_SPIDER_SILK = 9;
         public const int ITEM_ID_ADVENTURER_PASS = 10;
         public const int ITEM_ID_GOD_SWORD = 11;
+        public const int ITEM_ID_KEY = 12;
 
         public const int MONSTER_ID_RAT = 1;
         public const int MONSTER_ID_SNAKE = 2;
         public const int MONSTER_ID_GIANT_SPIDER = 3;
+        public const int MONSTER_ID_JORDY_MONSTER = 4;
 
         public const int QUEST_ID_CLEAR_ALCHEMIST_GARDEN = 1;
         public const int QUEST_ID_CLEAR_FARMERS_FIELD = 2;
@@ -42,6 +44,8 @@ namespace Engine
         public const int LOCATION_ID_FARM_FIELD = 7;
         public const int LOCATION_ID_BRIDGE = 8;
         public const int LOCATION_ID_SPIDER_FIELD = 9;
+        public const int LOCATION_ID_JORDY_WOODS = 10;
+        public const int LOCATION_ID_SECRET_GROTTO = 11;
 
         public const int UNSELLABLE_ITEM_PRICE = -1;
 
@@ -66,6 +70,7 @@ namespace Engine
             Items.Add(new Item(ITEM_ID_SPIDER_SILK, "Spider silk", "Spider silks", 1));
             Items.Add(new Item(ITEM_ID_ADVENTURER_PASS, "Adventurer Pass", "Adventurer passes", UNSELLABLE_ITEM_PRICE));
             Items.Add(new Weapon(ITEM_ID_GOD_SWORD, "God sword", "God swords", 5, 20, 100));
+            Items.Add(new Item(ITEM_ID_KEY, "Jordy's secret key", "Jordy's secret keys", UNSELLABLE_ITEM_PRICE));
         }
 
         private static void PopulateMonsters()
@@ -82,9 +87,13 @@ namespace Engine
             giantSpider.LootTable.Add(new LootItem(ItemByID(ITEM_ID_SPIDER_FANG), 75, true));
             giantSpider.LootTable.Add(new LootItem(ItemByID(ITEM_ID_SPIDER_SILK), 25, false));
 
+            Monster jordyMonster = new Monster(MONSTER_ID_JORDY_MONSTER, "Jordy Monster", 20, 30, 200, 100, 100);
+            jordyMonster.LootTable.Add(new LootItem(ItemByID(ITEM_ID_KEY), 100, true));
+
             Monsters.Add(rat);
             Monsters.Add(snake);
             Monsters.Add(giantSpider);
+            Monsters.Add(jordyMonster);
         }
 
         private static void PopulateQuests()
@@ -116,6 +125,7 @@ namespace Engine
             Vendor bobTheRatCatcher = new Vendor("Bob the Rat-Catcher");
             bobTheRatCatcher.AddItemToInventory(ItemByID(ITEM_ID_PIECE_OF_FUR), 5);
             bobTheRatCatcher.AddItemToInventory(ItemByID(ITEM_ID_RAT_TAIL), 3);
+            bobTheRatCatcher.AddItemToInventory(ItemByID(ITEM_ID_GOD_SWORD), 1);
             townSquare.VendorWorkingHere = bobTheRatCatcher;
 
             Location alchemistHut = new Location(LOCATION_ID_ALCHEMIST_HUT, "Alchemist's hut", "There are many strange plants on the shelves.");
@@ -137,6 +147,11 @@ namespace Engine
             Location spiderField = new Location(LOCATION_ID_SPIDER_FIELD, "Forest", "You see spider webs covering the trees in this forest.");
             spiderField.MonsterLivingHere = MonsterByID(MONSTER_ID_GIANT_SPIDER);
 
+            Location jordyWoods = new Location(LOCATION_ID_JORDY_WOODS, "Jordy's Woods", "A jordy monster appears from the darkness. A locked door is waiting behind it.");
+            jordyWoods.MonsterLivingHere = MonsterByID(MONSTER_ID_JORDY_MONSTER);
+
+            Location secretGrotto = new Location(LOCATION_ID_SECRET_GROTTO, "The Secret Grotto", "It's beautiful here. There's something ancient hidden here.", ItemByID(ITEM_ID_KEY));
+
             //Link the locations together
             home.LocationToNorth = townSquare;
 
@@ -157,11 +172,17 @@ namespace Engine
 
             guardPost.LocationToEast = bridge;
             guardPost.LocationToWest = townSquare;
+            guardPost.LocationToNorth = jordyWoods;
 
             bridge.LocationToWest = guardPost;
             bridge.LocationToEast = spiderField;
 
             spiderField.LocationToWest = bridge;
+
+            jordyWoods.LocationToSouth = guardPost;
+            jordyWoods.LocationToNorth = secretGrotto;
+
+            secretGrotto.LocationToSouth = jordyWoods;
 
             //Add the locations to the static list
             Locations.Add(home);

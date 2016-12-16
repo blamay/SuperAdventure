@@ -16,6 +16,7 @@ namespace Engine
 
         public static Player CreateFromDatabase()
         {
+            #region try
             try
             {
                 // This is our connection to the database
@@ -28,6 +29,7 @@ namespace Engine
 
                     // Create a SQL command object, that uses the connection to our database
                     // The SqlCommand object is where we create our SQL statement
+                    #region Load savedGame
                     using (SqlCommand savedGameCommand = connection.CreateCommand())
                     {
                         savedGameCommand.CommandType = CommandType.Text;
@@ -61,8 +63,10 @@ namespace Engine
                         player = Player.CreatePlayerFromDatabase(currentHitPoints, maximumHitPoints, gold,
                             experiencePoints, currentLocationID);
                     }
+                    #endregion
 
                     // Read the rows/records from the Quest table, and add them to the player
+                    #region Load quests
                     using (SqlCommand questCommand = connection.CreateCommand())
                     {
                         questCommand.CommandType = CommandType.Text;
@@ -86,8 +90,10 @@ namespace Engine
                             }
                         }
                     }
+                    #endregion
 
                     // Read the rows/records from the Inventory table, and add them to the player
+                    #region Load Inventory
                     using (SqlCommand inventoryCommand = connection.CreateCommand())
                     {
                         inventoryCommand.CommandType = CommandType.Text;
@@ -107,11 +113,15 @@ namespace Engine
                             }
                         }
                     }
+                    #endregion
 
                     // Now that the player has been built from the database, return it.
                     return player;
                 }
             }
+            #endregion
+
+            #region catch
             catch (Exception e)
             {
                 // Ignore errors. If there is an error, this function will return a "null" player.
@@ -127,12 +137,14 @@ namespace Engine
                     inner = inner.InnerException;
                 }
             }
+            #endregion
 
             return null;
         }
 
         public static void SaveToDatabase(Player player)
         {
+            #region try
             try
             {
                 using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -140,7 +152,9 @@ namespace Engine
                     // Open the connection, so we can perform SQL commands
                     connection.Open();
 
+
                     // Insert/Update data in SavedGame table
+                    #region SavedGame
                     using (SqlCommand existingRowCountCommand = connection.CreateCommand())
                     {
                         existingRowCountCommand.CommandType = CommandType.Text;
@@ -178,6 +192,7 @@ namespace Engine
                                 insertSavedGame.ExecuteNonQuery();
                             }
                         }
+
                         else
                         {
                             // There is an existing row, so do an UPDATE
@@ -212,6 +227,7 @@ namespace Engine
                             }
                         }
                     }
+                    #endregion
 
                     // The Quest and Inventory tables might have more, or less, rows in the database
                     // than what the player has in their properties.
@@ -272,6 +288,9 @@ namespace Engine
                     }
                 }
             }
+            #endregion
+
+            #region catch
             catch (Exception e)
             {
                 // We are going to ignore erros, for now.
@@ -286,6 +305,7 @@ namespace Engine
                     inner = inner.InnerException;
                 }
             }
+            #endregion
         }
     }
 }
