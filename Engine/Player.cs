@@ -230,9 +230,7 @@ namespace Engine
         public static Player CreatePlayerFromDatabase(int currentHitPoints, int maximumHitPoints, int gold, int experiencePoints, int currentLocationID)
         {
             Player player = new Player(currentHitPoints, maximumHitPoints, gold, experiencePoints);
-
-            player.MoveTo(World.LocationByID(currentLocationID));
-
+            player.CurrentLocation = World.LocationByID(currentLocationID);
             return player;
         }
 
@@ -513,7 +511,7 @@ namespace Engine
         {
            MoveTo(CurrentLocation);
         }
-        private void MoveHome()
+        public void MoveHome()
         {
             MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
         }

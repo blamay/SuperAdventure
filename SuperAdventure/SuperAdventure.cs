@@ -9,7 +9,6 @@ namespace SuperAdventure
 {
     public partial class SuperAdventure : Form
     {
-
         private Player _player;
 
         //Constant
@@ -18,13 +17,13 @@ namespace SuperAdventure
         //Load game file
         public SuperAdventure()
         {
-            InitializeComponent();
+            InitializeComponent(); 
 
             //SQL Load game file
 
             _player = PlayerDataMapper.CreateFromDatabase();
 
-            if(_player == null)
+            if (_player == null)
             {
                 //Load game file from XML
                 if (File.Exists(PLAYER_DATA_FILE_NAME))
@@ -37,6 +36,12 @@ namespace SuperAdventure
                     _player = Player.CreateDefaultPlayer();
                 }
             }
+
+            else
+            {
+                _player.MoveCurrentLocation();
+            }
+            
 
             lblHitPoints.DataBindings.Add("Text", _player, "CurrentHitPoints");
             lblGold.DataBindings.Add("Text", _player, "Gold");
@@ -97,6 +102,7 @@ namespace SuperAdventure
             _player.PropertyChanged += PlayerOnPropertyChanged;
 
             _player.MoveCurrentLocation();
+            cboPotions.ValueMember = "Id";
         }
 
         //Buttons

@@ -17,12 +17,12 @@ namespace SuperAdventure
         private void save1_Click(object sender, EventArgs e)
         {
             this.Close();
-            th = new Thread(opennewform);
+            th = new Thread(openSuperAdventure);
             th.SetApartmentState(ApartmentState.STA);
             th.Start();
         }
 
-        private void opennewform(object obj)
+        private void openSuperAdventure(object obj)
         {
             Application.Run(new SuperAdventure());
         }
@@ -53,6 +53,11 @@ namespace SuperAdventure
         }
 
         private void saveName3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SaveScreen_Load(object sender, EventArgs e)
         {
 
         }
