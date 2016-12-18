@@ -7,7 +7,7 @@ namespace SuperAdventure
     public partial class Title : Form
     {
 
-        Thread th;
+        //Thread th;
         public Title()
         {
             InitializeComponent();
@@ -15,10 +15,10 @@ namespace SuperAdventure
 
         private void btnContinue_Click(object sender, EventArgs e)
         {
-            this.Close();
-            th = new Thread(opennewform);
-            th.SetApartmentState(ApartmentState.STA);
-            th.Start();
+            this.Hide();
+            SaveScreen savescreen = new SaveScreen();
+            savescreen.ShowDialog();
+
         }
 
         private void opennewform(object obj)
