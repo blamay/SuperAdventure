@@ -13,7 +13,6 @@ namespace Engine
     public static class PlayerDataMapper
     {
         private static readonly string _connectionString = "Data Source=(local);Initial Catalog=SuperAdventure;Integrated Security=True;MultipleActiveResultSets=True";
-        private static int saveNumber = 0;
         public static Player CreateFromDatabase(int save)
         {
             #region try

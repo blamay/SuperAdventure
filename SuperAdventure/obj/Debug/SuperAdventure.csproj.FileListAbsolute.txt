@@ -12,3 +12,4 @@ C:\Projects\SuperAdventure\SuperAdventure\obj\Debug\SuperAdventure.pdb
 C:\Projects\SuperAdventure\SuperAdventure\obj\Debug\SuperAdventure.TradingScreen.resources
 C:\Projects\SuperAdventure\SuperAdventure\obj\Debug\SuperAdventure.SaveScreen.resources
 C:\Projects\SuperAdventure\SuperAdventure\obj\Debug\SuperAdventure.Title.resources
+C:\Projects\SuperAdventure\SuperAdventure\obj\Debug\SuperAdventure.SetSaveName.resources
