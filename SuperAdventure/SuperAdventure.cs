@@ -27,12 +27,12 @@ namespace SuperAdventure
             if (_player == null)
             {
                 //Load game file from XML
-                if (File.Exists(PLAYER_DATA_FILE_NAME))
-                {
-                    _player = Player.CreatePlayerFromXmlString(File.ReadAllText(PLAYER_DATA_FILE_NAME));
-                }
+               // if (File.Exists(PLAYER_DATA_FILE_NAME))
+               // {
+                //    _player = Player.CreatePlayerFromXmlString(File.ReadAllText(PLAYER_DATA_FILE_NAME));
+               // }
 
-                else
+               // else
                 {
                     _player = Player.CreateDefaultPlayer();
                 }
@@ -226,6 +226,7 @@ namespace SuperAdventure
             
             PlayerDataMapper.SaveToDatabase(_player, saveNumber );
             File.WriteAllText(PLAYER_DATA_FILE_NAME, _player.ToXmlString());
+            Application.Exit();
         }
     }
    
