@@ -13,10 +13,33 @@ namespace Engine
     public static class PlayerDataMapper
     {
         private static readonly string _connectionString = "Data Source=(local);Initial Catalog=SuperAdventure;Integrated Security=True;MultipleActiveResultSets=True";
-
-        public static Player CreateFromDatabase()
+        private static int saveNumber = 0;
+        public static Player CreateFromDatabase(int save)
         {
             #region try
+
+            //Set Commands for savenumber
+            string savedGameCommandText, questCommandText, inventoryCommandText;
+
+            if (save == 1)
+            {
+                savedGameCommandText = "SELECT TOP 1 * FROM SavedGame";
+                questCommandText = "SELECT * FROM Quest";
+                inventoryCommandText = "SELECT * FROM Inventory";
+            }
+            else if (save == 2)
+            {
+                savedGameCommandText = "SELECT TOP 1 * FROM SavedGame2";
+                questCommandText = "SELECT * FROM Quest2";
+                inventoryCommandText = "SELECT * FROM Inventory2";
+            }
+            else
+            {
+                savedGameCommandText = "SELECT TOP 1 * FROM SavedGame3";
+                questCommandText = "SELECT * FROM Quest3";
+                inventoryCommandText = "SELECT * FROM Inventory3";
+            }
+
             try
             {
                 // This is our connection to the database
@@ -36,7 +59,7 @@ namespace Engine
                         // This SQL statement reads the first rows in teh SavedGame table.
                         // For this program, we should only ever have one row,
                         // but this will ensure we only get one record in our SQL query results.
-                        savedGameCommand.CommandText = "SELECT TOP 1 * FROM SavedGame";
+                        savedGameCommand.CommandText = savedGameCommandText;
 
                         // Use ExecuteReader when you expect the query to return a row, or rows
                         SqlDataReader reader = savedGameCommand.ExecuteReader();
@@ -70,7 +93,7 @@ namespace Engine
                     using (SqlCommand questCommand = connection.CreateCommand())
                     {
                         questCommand.CommandType = CommandType.Text;
-                        questCommand.CommandText = "SELECT * FROM Quest";
+                        questCommand.CommandText = questCommandText;
 
                         SqlDataReader reader = questCommand.ExecuteReader();
 
@@ -97,7 +120,7 @@ namespace Engine
                     using (SqlCommand inventoryCommand = connection.CreateCommand())
                     {
                         inventoryCommand.CommandType = CommandType.Text;
-                        inventoryCommand.CommandText = "SELECT * FROM Inventory";
+                        inventoryCommand.CommandText = inventoryCommandText;
 
                         SqlDataReader reader = inventoryCommand.ExecuteReader();
 
@@ -142,11 +165,42 @@ namespace Engine
             return null;
         }
 
-        public static void SaveToDatabase(Player player)
+        public static void SaveToDatabase(Player player, int saveNumber)
         {
             #region try
             try
             {
+                string existingRowCountCommandText, insertSavedGameCommandText, updateSavedGameCommandText, deleteQuestsCommandText, insertQuestsCommandText, deleteInventoryCommandText, insertInventoryCommandText;
+                if (saveNumber == 1)
+                {
+                    existingRowCountCommandText = "SELECT count(*) FROM SavedGame";
+                    insertSavedGameCommandText = "INSERT INTO SavedGame ";
+                    updateSavedGameCommandText = "UPDATE SavedGame ";
+                    deleteQuestsCommandText = "DELETE FROM Quest";
+                    insertQuestsCommandText = "INSERT INTO Quest (QuestID, IsCompleted) VALUES (@QuestID, @IsCompleted)";
+                    deleteInventoryCommandText = "DELETE FROM Inventory";
+                    insertInventoryCommandText = "INSERT INTO Inventory (InventoryItemID, Quantity) VALUES (@InventoryItemID, @Quantity)";
+                }
+                else if (saveNumber == 2)
+                {
+                    existingRowCountCommandText = "SELECT count(*) FROM SavedGame2";
+                    insertSavedGameCommandText = "INSERT INTO SavedGame2 ";
+                    updateSavedGameCommandText = "UPDATE SavedGame2 ";
+                    deleteQuestsCommandText = "DELETE FROM Quest2";
+                    insertQuestsCommandText = "INSERT INTO Quest2 (QuestID, IsCompleted) VALUES (@QuestID, @IsCompleted)";
+                    deleteInventoryCommandText = "DELETE FROM Inventory2";
+                    insertInventoryCommandText = "INSERT INTO Inventory2 (InventoryItemID, Quantity) VALUES (@InventoryItemID, @Quantity)";
+                }
+                else
+                {
+                    existingRowCountCommandText = "SELECT count(*) FROM SavedGame3";
+                    insertSavedGameCommandText = "INSERT INTO SavedGame3 ";
+                    updateSavedGameCommandText = "UPDATE SavedGame3 ";
+                    deleteQuestsCommandText = "DELETE FROM Quest3";
+                    insertQuestsCommandText = "INSERT INTO Quest3 (QuestID, IsCompleted) VALUES (@QuestID, @IsCompleted)";
+                    deleteInventoryCommandText = "DELETE FROM Inventory3";
+                    insertInventoryCommandText = "INSERT INTO Inventory3 (InventoryItemID, Quantity) VALUES (@InventoryItemID, @Quantity)";
+                }
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     // Open the connection, so we can perform SQL commands
@@ -158,7 +212,7 @@ namespace Engine
                     using (SqlCommand existingRowCountCommand = connection.CreateCommand())
                     {
                         existingRowCountCommand.CommandType = CommandType.Text;
-                        existingRowCountCommand.CommandText = "SELECT count(*) FROM SavedGame";
+                        existingRowCountCommand.CommandText = existingRowCountCommandText;
 
                         // Use ExecuteScalar when your query will return one value
                         int existingRowCount = (int)existingRowCountCommand.ExecuteScalar();
@@ -170,7 +224,7 @@ namespace Engine
                             {
                                 insertSavedGame.CommandType = CommandType.Text;
                                 insertSavedGame.CommandText =
-                                    "INSERT INTO SavedGame " +
+                                    insertSavedGameCommandText +
                                     "(CurrentHitPoints, MaximumHitPoints, Gold, ExperiencePoints, CurrentLocationID) " +
                                     "VALUES " +
                                     "(@CurrentHitPoints, @MaximumHitPoints, @Gold, @ExperiencePoints, @CurrentLocationID)";
@@ -200,7 +254,7 @@ namespace Engine
                             {
                                 updateSavedGame.CommandType = CommandType.Text;
                                 updateSavedGame.CommandText =
-                                    "UPDATE SavedGame " +
+                                    updateSavedGameCommandText +
                                     "SET CurrentHitPoints = @CurrentHitPoints, " +
                                     "MaximumHitPoints = @MaximumHitPoints, " +
                                     "Gold = @Gold, " +
@@ -239,7 +293,7 @@ namespace Engine
                     using (SqlCommand deleteQuestsCommand = connection.CreateCommand())
                     {
                         deleteQuestsCommand.CommandType = CommandType.Text;
-                        deleteQuestsCommand.CommandText = "DELETE FROM Quest";
+                        deleteQuestsCommand.CommandText = deleteQuestsCommandText;
 
                         deleteQuestsCommand.ExecuteNonQuery();
                     }
@@ -250,7 +304,7 @@ namespace Engine
                         using (SqlCommand insertQuestCommand = connection.CreateCommand())
                         {
                             insertQuestCommand.CommandType = CommandType.Text;
-                            insertQuestCommand.CommandText = "INSERT INTO Quest (QuestID, IsCompleted) VALUES (@QuestID, @IsCompleted)";
+                            insertQuestCommand.CommandText = insertQuestsCommandText;
 
                             insertQuestCommand.Parameters.Add("@QuestID", SqlDbType.Int);
                             insertQuestCommand.Parameters["@QuestID"].Value = playerQuest.Details.ID;
@@ -265,7 +319,7 @@ namespace Engine
                     using (SqlCommand deleteInventoryCommand = connection.CreateCommand())
                     {
                         deleteInventoryCommand.CommandType = CommandType.Text;
-                        deleteInventoryCommand.CommandText = "DELETE FROM Inventory";
+                        deleteInventoryCommand.CommandText = deleteInventoryCommandText;
 
                         deleteInventoryCommand.ExecuteNonQuery();
                     }
@@ -276,7 +330,7 @@ namespace Engine
                         using (SqlCommand insertInventoryCommand = connection.CreateCommand())
                         {
                             insertInventoryCommand.CommandType = CommandType.Text;
-                            insertInventoryCommand.CommandText = "INSERT INTO Inventory (InventoryItemID, Quantity) VALUES (@InventoryItemID, @Quantity)";
+                            insertInventoryCommand.CommandText = insertInventoryCommandText;
 
                             insertInventoryCommand.Parameters.Add("@InventoryItemID", SqlDbType.Int);
                             insertInventoryCommand.Parameters["@InventoryItemID"].Value = inventoryItem.Details.ID;
@@ -307,5 +361,6 @@ namespace Engine
             }
             #endregion
         }
+
     }
 }

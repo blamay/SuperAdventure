@@ -13,15 +13,16 @@ namespace SuperAdventure
 
         //Constant
         private const string PLAYER_DATA_FILE_NAME = "PlayerData.xml";
+        private static int saveNumber;
 
         //Load game file
-        public SuperAdventure()
+        public SuperAdventure(Player _player2, int saveNum)
         {
-            InitializeComponent(); 
+            InitializeComponent();
 
-            //SQL Load game file
-
-            _player = PlayerDataMapper.CreateFromDatabase();
+            //remove
+            _player = _player2;
+            saveNumber = saveNum;
 
             if (_player == null)
             {
@@ -220,12 +221,11 @@ namespace SuperAdventure
             rtbMessages.SelectionStart = rtbMessages.Text.Length;
             rtbMessages.ScrollToCaret();
         }
-
         private void SuperAdventure_FormClosing(object sender, FormClosingEventArgs e)
         {
+            
+            PlayerDataMapper.SaveToDatabase(_player, saveNumber );
             File.WriteAllText(PLAYER_DATA_FILE_NAME, _player.ToXmlString());
-
-            PlayerDataMapper.SaveToDatabase(_player);
         }
     }
    
