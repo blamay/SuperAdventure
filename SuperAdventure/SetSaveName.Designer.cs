@@ -69,6 +69,7 @@
             this.Controls.Add(this.textboxName);
             this.Name = "SetSaveName";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SetSaveName_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

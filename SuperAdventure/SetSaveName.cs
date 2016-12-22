@@ -36,7 +36,7 @@ namespace SuperAdventure
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (textboxName.Name == null)
+            if (textboxName.Text == null)
             {
                 MessageBox.Show("You must enter a valid name.");
                 return;
@@ -69,8 +69,8 @@ namespace SuperAdventure
                         insertSaveName.ExecuteNonQuery();
                         Hide();
                     }
-
                 }
+
             }
 
             catch (Exception exc)
@@ -89,5 +89,9 @@ namespace SuperAdventure
             }
         }
 
+        private void SetSaveName_FormClosing(object sender, FormClosingEventArgs e)
+        {
+   //         Application.Exit();
+        }
     }
 }

@@ -226,6 +226,7 @@ namespace SuperAdventure
             
             PlayerDataMapper.SaveToDatabase(_player, saveNumber );
             File.WriteAllText(PLAYER_DATA_FILE_NAME, _player.ToXmlString());
+            Application.Exit();
         }
     }
    

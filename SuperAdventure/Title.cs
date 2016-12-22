@@ -21,9 +21,5 @@ namespace SuperAdventure
 
         }
 
-        private void opennewform(object obj)
-        {
-            Application.Run(new SaveScreen());
-        }
     }
 }
