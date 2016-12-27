@@ -51,8 +51,7 @@ namespace SuperAdventure
                 return;
             }
 
-            PlayerDataMapper.SaveTXTName(textboxName.Text, TXT_PLAYER_NAME);
-            //File.WriteAllText(XML_PLAYER_NAME, PlayerDataMapper.ToSaveNameXML(textboxName.Text));
+            File.WriteAllText(textboxName.Text, TXT_PLAYER_NAME);
 
             try
             {

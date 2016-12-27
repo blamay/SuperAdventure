@@ -446,32 +446,6 @@ namespace Engine
             {
                 return "Create New Game";
             }
-
-
-
-           // XmlDocument playerName = new XmlDocument();
-
-           // playerName.LoadXml(XML_PLAYER_NAME);
-
-            //string name = playerName.ToString();
-        }
-
-        public static void SaveTXTName(string saveName, string saveFileName)
-        {
-
-            
-
-            //StreamWriter SaveFile = new StreamWriter(saveFileName);
-            File.WriteAllText(saveFileName, saveName);
-            //XmlDocument playerName = new XmlDocument();
-
-            //Create the top-level XML node
-            //XmlNode name = playerName.CreateElement("Name");
-            //playerName.AppendChild(playerName.CreateTextNode(saveName));
-            //playerName.AppendChild(name);
-
-
-            //return playerName.InnerXml; //Xml as a string
         }
 
 

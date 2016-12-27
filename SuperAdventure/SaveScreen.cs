@@ -10,7 +10,6 @@ namespace SuperAdventure
         {
             InitializeComponent();
             readNames();
-
         }
 
         private void readNames()
@@ -46,7 +45,7 @@ namespace SuperAdventure
 
         private void LoadSaveGame (int saveNumber)
         {
-            Player _player = null;//PlayerDataMapper.CreateFromDatabase(saveNumber);
+            Player _player = PlayerDataMapper.CreateFromDatabase(saveNumber);
 
             if (_player == null)
             {
@@ -66,9 +65,7 @@ namespace SuperAdventure
                     SuperAdventure superadventure = new SuperAdventure(_player, saveNumber);
                     superadventure.ShowDialog();
                 }
-
             }
-
 
         }
 
