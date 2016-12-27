@@ -15,20 +15,20 @@ namespace SuperAdventure
 
         private void readNames()
         {
-           // try
-           // {
-           //     save1.Text = PlayerDataMapper.ReadSQLName(1);
-           //     save2.Text = PlayerDataMapper.ReadSQLName(2);
-           //     save3.Text = PlayerDataMapper.ReadSQLName(3);
-           // }
+            try
+            {
+                save1.Text = PlayerDataMapper.ReadSQLName(1);
+                save2.Text = PlayerDataMapper.ReadSQLName(2);
+                save3.Text = PlayerDataMapper.ReadSQLName(3);
+            }
 
-            //catch
-            //{
+            catch
+            {
                 Console.WriteLine("No SQL Detected");
                 save1.Text = PlayerDataMapper.ReadTXTName(1);
                 save2.Text = PlayerDataMapper.ReadTXTName(2);
                 save3.Text = PlayerDataMapper.ReadTXTName(3);
-            //}
+            }
         }
 
         private void save1_Click(object sender, EventArgs e)
