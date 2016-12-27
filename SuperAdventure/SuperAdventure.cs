@@ -12,7 +12,7 @@ namespace SuperAdventure
         private Player _player;
 
         //Constant
-        private const string PLAYER_DATA_FILE_NAME = "PlayerData.xml";
+        private string PLAYER_DATA_FILE_NAME = "PlayerData.xml";
         private static int saveNumber;
 
         //Load game file
@@ -20,29 +20,26 @@ namespace SuperAdventure
         {
             InitializeComponent();
 
+            if (saveNum == 1)
+            {
+                PLAYER_DATA_FILE_NAME = "PlayerData.xml";
+            }
+            else if (saveNum == 2)
+            {
+                PLAYER_DATA_FILE_NAME = "PlayerData2.xml";
+            }
+            else PLAYER_DATA_FILE_NAME = "PlayerData3.xml";
+
             //remove
             _player = _player2;
             saveNumber = saveNum;
 
-            if (_player == null)
+            if(_player == null)
             {
-                //Load game file from XML
-               // if (File.Exists(PLAYER_DATA_FILE_NAME))
-               // {
-                //    _player = Player.CreatePlayerFromXmlString(File.ReadAllText(PLAYER_DATA_FILE_NAME));
-               // }
-
-               // else
-                {
-                    _player = Player.CreateDefaultPlayer();
-                }
+                _player = Player.CreateDefaultPlayer();
             }
 
-            else
-            {
-                _player.MoveCurrentLocation();
-            }
-            
+            _player.MoveCurrentLocation();
 
             lblHitPoints.DataBindings.Add("Text", _player, "CurrentHitPoints");
             lblGold.DataBindings.Add("Text", _player, "Gold");

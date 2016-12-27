@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.IO;
+using System.Xml;
 
 namespace Engine
 {
@@ -359,6 +361,210 @@ namespace Engine
                 }
             }
             #endregion
+        }
+
+        public static string ReadSQLName(int saveNum)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                // Open the connection, so we can perform SQL commands
+                connection.Open();
+
+                // Create a SQL command object, that uses the connection to our database
+                // The SqlCommand object is where we create our SQL statement
+                #region Load savedGame
+                using (SqlCommand savedGameCommand = connection.CreateCommand())
+                {
+                    savedGameCommand.CommandType = CommandType.Text;
+                    // This SQL statement reads the first rows in teh SavedGame table.
+                    // For this program, we should only ever have one row,
+                    // but this will ensure we only get one record in our SQL query results.
+                    if (saveNum == 1)
+                    {
+                        savedGameCommand.CommandText = "SELECT PlayerName FROM Name";
+                    }
+                    else if (saveNum == 2)
+                    {
+                        savedGameCommand.CommandText = "SELECT PlayerName FROM Name2";
+                    }
+                    else
+                    {
+                        savedGameCommand.CommandText = "SELECT PlayerName FROM Name3";
+                    }
+
+                    // Use ExecuteReader when you expect the query to return a row, or rows
+                    SqlDataReader reader = savedGameCommand.ExecuteReader();
+
+                    // Check if the query did not return a row/record of data
+                    if (!reader.HasRows)
+                    {
+                        // There is no data in the SavedGame table, 
+                        // so return null (no saved player data)
+                        return "Create New Game";
+                    }
+
+                    // Get the row/record from the data reader
+                    reader.Read();
+
+                    // Get the column values for the row/record
+
+                    string nameResult = (string)reader["PlayerName"];
+
+                    return nameResult;
+
+                }
+                #endregion
+            }
+        }
+
+        public static string ReadTXTName(int saveNum)
+        {
+            string TXT_PLAYER_NAME;
+
+            if (saveNum == 1)
+            {
+                TXT_PLAYER_NAME = "PlayerName.txt";
+
+            }
+            else if (saveNum == 2)
+            {
+                TXT_PLAYER_NAME = "PlayerName2.txt";
+            }
+
+            else
+            {
+                TXT_PLAYER_NAME = "PlayerName3.txt";
+            }
+
+            try
+            {
+                string name = File.ReadAllText(TXT_PLAYER_NAME);
+                return name;
+            }
+
+            catch
+            {
+                return "Create New Game";
+            }
+
+
+
+           // XmlDocument playerName = new XmlDocument();
+
+           // playerName.LoadXml(XML_PLAYER_NAME);
+
+            //string name = playerName.ToString();
+        }
+
+        public static void SaveTXTName(string saveName, string saveFileName)
+        {
+
+            
+
+            //StreamWriter SaveFile = new StreamWriter(saveFileName);
+            File.WriteAllText(saveFileName, saveName);
+            //XmlDocument playerName = new XmlDocument();
+
+            //Create the top-level XML node
+            //XmlNode name = playerName.CreateElement("Name");
+            //playerName.AppendChild(playerName.CreateTextNode(saveName));
+            //playerName.AppendChild(name);
+
+
+            //return playerName.InnerXml; //Xml as a string
+        }
+
+
+        public static void DeleteSQLSaveGame(int saveNumber)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    // Open the connection, so we can perform SQL commands
+                    connection.Open();
+
+
+                    string deleteInventoryCommandText;
+                    string deleteNameCommandText;
+                    string deleteQuestsCommandText;
+                    string deleteSavedGameCommandText;
+
+                    if (saveNumber == 1)
+                    {
+                        deleteInventoryCommandText = "DELETE FROM Inventory";
+                        deleteNameCommandText = "DELETE FROM Name";
+                        deleteQuestsCommandText = "DELETE FROM Quest";
+                        deleteSavedGameCommandText = "DELETE FROM SavedGame";
+                    }
+
+                    else if (saveNumber == 2)
+                    {
+                        deleteInventoryCommandText = "DELETE FROM Inventory2";
+                        deleteNameCommandText = "DELETE FROM Name2";
+                        deleteQuestsCommandText = "DELETE FROM Quest2";
+                        deleteSavedGameCommandText = "DELETE FROM SavedGame2";
+                    }
+
+                    else
+                    {
+                        deleteInventoryCommandText = "DELETE FROM Inventory3";
+                        deleteNameCommandText = "DELETE FROM Name3";
+                        deleteQuestsCommandText = "DELETE FROM Quest3";
+                        deleteSavedGameCommandText = "DELETE FROM SavedGame3";
+                    }
+
+
+                    using (SqlCommand deleteSave = connection.CreateCommand())
+                    {
+                        deleteSave.CommandType = CommandType.Text;
+                        deleteSave.CommandText = deleteInventoryCommandText;
+                        deleteSave.ExecuteNonQuery();
+
+                        deleteSave.CommandText = deleteNameCommandText;
+                        deleteSave.ExecuteNonQuery();
+
+                        deleteSave.CommandText = deleteQuestsCommandText;
+                        deleteSave.ExecuteNonQuery();
+
+                        deleteSave.CommandText = deleteSavedGameCommandText;
+                        deleteSave.ExecuteNonQuery();
+
+                    }
+                }
+            }
+
+            catch
+            {
+
+            }
+        }
+
+        public static void DeleteXMLSaveGame(int saveNumber)
+        {
+            string TXT_PLAYER_NAME;
+            string XML_PLAYER_DATA;
+
+            if (saveNumber == 1)
+            {
+                TXT_PLAYER_NAME = "PlayerName.txt";
+                XML_PLAYER_DATA = "PlayerData.xml";
+            }
+            else if (saveNumber == 2)
+            {
+                TXT_PLAYER_NAME = "PlayerName2.txt";
+                XML_PLAYER_DATA = "PlayerData2.xml";
+            }
+
+            else
+            {
+                TXT_PLAYER_NAME = "PlayerName3.txt";
+                XML_PLAYER_DATA = "PlayerData3.xml";
+            }
+
+            File.Delete(TXT_PLAYER_NAME);
+            File.Delete(XML_PLAYER_DATA);
+
         }
 
     }

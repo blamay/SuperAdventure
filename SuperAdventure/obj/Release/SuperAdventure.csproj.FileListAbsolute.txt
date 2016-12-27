@@ -10,3 +10,6 @@ C:\Projects\SuperAdventure\SuperAdventure\obj\Release\SuperAdventure.csproj.Gene
 C:\Projects\SuperAdventure\SuperAdventure\obj\Release\SuperAdventure.exe
 C:\Projects\SuperAdventure\SuperAdventure\obj\Release\SuperAdventure.pdb
 C:\Projects\SuperAdventure\SuperAdventure\obj\Release\SuperAdventure.TradingScreen.resources
+C:\Projects\SuperAdventure\SuperAdventure\obj\Release\SuperAdventure.SaveScreen.resources
+C:\Projects\SuperAdventure\SuperAdventure\obj\Release\SuperAdventure.SetSaveName.resources
+C:\Projects\SuperAdventure\SuperAdventure\obj\Release\SuperAdventure.Title.resources

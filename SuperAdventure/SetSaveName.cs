@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.IO;
+using Engine;
 
 namespace SuperAdventure
 {
@@ -16,31 +18,41 @@ namespace SuperAdventure
     {
         private static readonly string _connectionString = "Data Source=(local);Initial Catalog=SuperAdventure;Integrated Security=True;MultipleActiveResultSets=True";
         string SaveNameCommandText = null;
+        string TXT_PLAYER_NAME = null;
         public SetSaveName(int saveNumber)
         {
             InitializeComponent();
 
             if (saveNumber == 1)
             {
-                 SaveNameCommandText = "INSERT INTO Name ";
+                SaveNameCommandText = "INSERT INTO Name ";
+                TXT_PLAYER_NAME = "PlayerName.txt";
+
             }
-            else if (saveNumber ==2)
+            else if (saveNumber == 2)
             {
-                 SaveNameCommandText = "INSERT INTO Name2 ";
+                SaveNameCommandText = "INSERT INTO Name2 ";
+                TXT_PLAYER_NAME = "PlayerName2.txt";
             }
 
-            else SaveNameCommandText = "INSERT INTO Name3 ";
+            else
+            {
+                SaveNameCommandText = "INSERT INTO Name3 ";
+                TXT_PLAYER_NAME = "PlayerName3.txt";
+            }
         }
-
 
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (textboxName.Text == null)
+            if (textboxName.Text == "")
             {
                 MessageBox.Show("You must enter a valid name.");
                 return;
             }
+
+            PlayerDataMapper.SaveTXTName(textboxName.Text, TXT_PLAYER_NAME);
+            //File.WriteAllText(XML_PLAYER_NAME, PlayerDataMapper.ToSaveNameXML(textboxName.Text));
 
             try
             {
