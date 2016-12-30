@@ -14,11 +14,13 @@ namespace SuperAdventure
         //Constant
         private string PLAYER_DATA_FILE_NAME = "PlayerData.xml";
         private static int saveNumber;
-
+        private bool IsSQLRunning;
         //Load game file
-        public SuperAdventure(Player _player2, int saveNum)
+        public SuperAdventure(Player _player2, int saveNum, bool _isSQLRunning)
         {
             InitializeComponent();
+
+            IsSQLRunning = _isSQLRunning;
 
             if (saveNum == 1)
             {
@@ -220,8 +222,10 @@ namespace SuperAdventure
         }
         private void SuperAdventure_FormClosing(object sender, FormClosingEventArgs e)
         {
-            
-            PlayerDataMapper.SaveToDatabase(_player, saveNumber );
+            if(IsSQLRunning == true)
+            {
+                PlayerDataMapper.SaveToDatabase(_player, saveNumber);
+            }
             File.WriteAllText(PLAYER_DATA_FILE_NAME, _player.ToXmlString());
             Application.Exit();
         }

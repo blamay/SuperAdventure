@@ -6,24 +6,25 @@ namespace SuperAdventure
 {
     public partial class SaveScreen : Form
     {
-        public SaveScreen()
+        public bool IsSQLRunning;
+        public SaveScreen(bool _isSQLRunning)
         {
             InitializeComponent();
+            IsSQLRunning = _isSQLRunning;
             readNames();
         }
 
         private void readNames()
         {
-            try
+            if(IsSQLRunning == true)
             {
                 save1.Text = PlayerDataMapper.ReadSQLName(1);
                 save2.Text = PlayerDataMapper.ReadSQLName(2);
                 save3.Text = PlayerDataMapper.ReadSQLName(3);
             }
 
-            catch
+            else
             {
-                Console.WriteLine("No SQL Detected");
                 save1.Text = PlayerDataMapper.ReadTXTName(1);
                 save2.Text = PlayerDataMapper.ReadTXTName(2);
                 save3.Text = PlayerDataMapper.ReadTXTName(3);
@@ -45,46 +46,52 @@ namespace SuperAdventure
 
         private void LoadSaveGame (int saveNumber)
         {
-            Player _player = PlayerDataMapper.CreateFromDatabase(saveNumber);
+            Player _player;
 
-            if (_player == null)
+            if (IsSQLRunning == true)
             {
-                _player = Player.CreatePlayerFromXmlString(saveNumber);
+                _player = PlayerDataMapper.CreateFromDatabase(saveNumber);
+            }
+
+            else _player = Player.CreatePlayerFromXmlString(saveNumber);
 
                 if (_player == null)
                 {
-                    SetSaveName setname = new SetSaveName(saveNumber);
+                    SetSaveName setname = new SetSaveName(saveNumber, IsSQLRunning);
                     Hide();
                     setname.ShowDialog();
-                    SuperAdventure superadventure = new SuperAdventure(_player, saveNumber);
+                    SuperAdventure superadventure = new SuperAdventure(_player, saveNumber, IsSQLRunning);
                     superadventure.ShowDialog();
                 }
                 else
                 {
                     Hide();
-                    SuperAdventure superadventure = new SuperAdventure(_player, saveNumber);
+                    SuperAdventure superadventure = new SuperAdventure(_player, saveNumber, IsSQLRunning);
                     superadventure.ShowDialog();
                 }
-            }
-
         }
 
         private void buttonDelete1_Click(object sender, EventArgs e)
         {
-            PlayerDataMapper.DeleteSQLSaveGame(1);
-            PlayerDataMapper.DeleteXMLSaveGame(1);
-            readNames();
+            DeleteGame(1);
         }
         private void buttonDelete2_Click(object sender, EventArgs e)
         {
-            PlayerDataMapper.DeleteSQLSaveGame(2);
-            PlayerDataMapper.DeleteXMLSaveGame(2);
-            readNames();
+            DeleteGame(2);
         }
         private void buttonDelete3_Click(object sender, EventArgs e)
         {
-            PlayerDataMapper.DeleteSQLSaveGame(3);
-            PlayerDataMapper.DeleteXMLSaveGame(3);
+            DeleteGame(3);
+        }
+
+        private void DeleteGame(int saveNum)
+        {
+            if(IsSQLRunning == true)
+            {
+                PlayerDataMapper.DeleteSQLSaveGame(saveNum);
+            }
+
+            PlayerDataMapper.DeleteXMLSaveGame(saveNum);
             readNames();
         }
 

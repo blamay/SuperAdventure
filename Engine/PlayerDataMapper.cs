@@ -541,5 +541,23 @@ namespace Engine
 
         }
 
+        public static bool CheckForSQLConnection()
+        {
+            try
+            {
+                // This is our connection to the database
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    // Open the connection, so we can perform SQL commands
+                    connection.Open();
+                    return true;
+                }
+            }
+
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
