@@ -5,6 +5,7 @@ using System.Xml;
 using System;
 
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Engine
 {
@@ -170,13 +171,27 @@ namespace Engine
             return playerData.InnerXml; //Xml as a string
 
         }
-        public static Player CreatePlayerFromXmlString(string xmlPlayerData)
+        public static Player CreatePlayerFromXmlString(int saveNum)
         {
+
+            string xmlPlayerData = null;
+
+            if (saveNum == 1)
+            {
+                xmlPlayerData = "PlayerData.xml";
+            }
+            else if (saveNum == 2)
+            {
+                xmlPlayerData = "PlayerData2.xml";
+            }
+            else xmlPlayerData = "PlayerData3.xml";
+
+
             try
             {
                 XmlDocument playerData = new XmlDocument();
 
-                playerData.LoadXml(xmlPlayerData);
+                playerData.Load(xmlPlayerData);
 
                 int currentHitPoints = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/CurrentHitPoints").InnerText);
                 int maximumHitPoints = Convert.ToInt32(playerData.SelectSingleNode("/Player/Stats/MaximumHitPoints").InnerText);
@@ -219,10 +234,20 @@ namespace Engine
                 return player;
 
             }
-            catch
+            catch(Exception e)
             {
+                Console.WriteLine(e);
+                // MessageBox.Show(e);
+                Debug.WriteLine(e);
+
+                var inner = e.InnerException;
+                while (inner != null)
+                {
+                    //display / log / view
+                    inner = inner.InnerException;
+                }
                 //If there was an error with the XML data, return a default player object
-                return Player.CreateDefaultPlayer();
+                return null;
             }
         }
 
