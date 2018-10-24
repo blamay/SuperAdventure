@@ -3,7 +3,6 @@ C:\Projects\SuperAdventure\SuperAdventure\bin\Debug\SuperAdventure.exe
 C:\Projects\SuperAdventure\SuperAdventure\bin\Debug\SuperAdventure.pdb
 C:\Projects\SuperAdventure\SuperAdventure\bin\Debug\Engine.dll
 C:\Projects\SuperAdventure\SuperAdventure\bin\Debug\Engine.pdb
-C:\Projects\SuperAdventure\SuperAdventure\obj\Debug\SuperAdventure.csprojResolveAssemblyReference.cache
 C:\Projects\SuperAdventure\SuperAdventure\obj\Debug\SuperAdventure.Properties.Resources.resources
 C:\Projects\SuperAdventure\SuperAdventure\obj\Debug\SuperAdventure.SuperAdventure.resources
 C:\Projects\SuperAdventure\SuperAdventure\obj\Debug\SuperAdventure.csproj.GenerateResource.Cache
@@ -13,3 +12,6 @@ C:\Projects\SuperAdventure\SuperAdventure\obj\Debug\SuperAdventure.TradingScreen
 C:\Projects\SuperAdventure\SuperAdventure\obj\Debug\SuperAdventure.SaveScreen.resources
 C:\Projects\SuperAdventure\SuperAdventure\obj\Debug\SuperAdventure.Title.resources
 C:\Projects\SuperAdventure\SuperAdventure\obj\Debug\SuperAdventure.SetSaveName.resources
+C:\Projects\SuperAdventure\SuperAdventure\obj\Debug\SuperAdventure.csprojAssemblyReference.cache
+C:\Projects\SuperAdventure\SuperAdventure\obj\Debug\SuperAdventure.csproj.CoreCompileInputs.cache
+C:\Projects\SuperAdventure\SuperAdventure\obj\Debug\SuperAdventure.csproj.CopyComplete
