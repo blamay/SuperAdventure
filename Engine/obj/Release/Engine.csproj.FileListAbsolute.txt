@@ -1,5 +1,6 @@
 C:\Projects\SuperAdventure\Engine\bin\Release\Engine.dll
 C:\Projects\SuperAdventure\Engine\bin\Release\Engine.pdb
-C:\Projects\SuperAdventure\Engine\obj\Release\Engine.csprojResolveAssemblyReference.cache
 C:\Projects\SuperAdventure\Engine\obj\Release\Engine.dll
 C:\Projects\SuperAdventure\Engine\obj\Release\Engine.pdb
+C:\Projects\SuperAdventure\Engine\obj\Release\Engine.csprojAssemblyReference.cache
+C:\Projects\SuperAdventure\Engine\obj\Release\Engine.csproj.CoreCompileInputs.cache
