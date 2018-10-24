@@ -12,13 +12,13 @@ namespace SuperAdventure
         public Title()
         {
             InitializeComponent();
-            IsSQLRunning = PlayerDataMapper.CheckForSQLConnection();
+            //IsSQLRunning = PlayerDataMapper.CheckForSQLConnection(); // SQL Server is turned off so use XML
         }
 
         private void btnContinue_Click(object sender, EventArgs e)
         {
             this.Hide();
-            SaveScreen savescreen = new SaveScreen(IsSQLRunning);
+            SaveScreen savescreen = new SaveScreen(false);
             savescreen.ShowDialog();
         }
         
